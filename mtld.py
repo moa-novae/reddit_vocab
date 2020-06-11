@@ -1,6 +1,6 @@
 import spacy
 nlp = spacy.load('en_core_web_sm')
-
+# test str
 text = ("""The state was named for the Colorado River, which early Spanish """
         """explorers named the Río Colorado ("Red River") for the ruddy  """
         """silt the river carried from the mountains. The Territory of """
@@ -20,9 +20,6 @@ text = ("""The state was named for the Colorado River, which early Spanish """
         """most populous city of Colorado. Residents of the state are """
         """known as Coloradans, although the antiquated term "Coloradoan" """
         """is occasionally used.""")
-
-test_doc = nlp(text)
-lemma = [token.lemma_ for token in test_doc]
 
 
 # For info on measurement of lexical diversity,

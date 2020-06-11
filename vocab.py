@@ -6,6 +6,7 @@ import spacy
 import os
 nlp = spacy.load('en_core_web_sm')
 reddit = praw.Reddit('personal')
+# Change subreddits to whatever ones you want to analyze
 subreddits = ('askreddit', 'askhistorians', 'philosophy', 'news', 'funny',
               'animalcrossing', 'aww')
 

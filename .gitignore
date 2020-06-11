@@ -1,2 +1,4 @@
 praw.ini
 .vscode
+__pycache__
+data

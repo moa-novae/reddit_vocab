@@ -8,11 +8,24 @@ import timeit
 nlp = spacy.load('en_core_web_sm')
 reddit = praw.Reddit('personal')
 # Change subreddits to whatever ones you want to analyze
-subreddits = ('askreddit', 'askhistorians', 'philosophy', 'news', 'funny',
-              'animalcrossing', 'aww')
+subreddits = ('askreddit', )
 
 
-class subreddit_analysis:
+class lexical_analysis:
+    @property
+    def avg_sentence_length(self):
+        output = mtld.avg_sentence_length(self.doc)
+        return output
+
+    @property
+    def mtld(self):
+        # lemmatize each token for mtld calculation
+        lemmatize = [token.lemma_ for token in self.doc]
+        output = mtld.mtld(lemmatize)
+        return output
+
+
+class subreddit_analysis(lexical_analysis):
     nlp = spacy.load('en_core_web_sm')
     reddit = praw.Reddit('personal')
 
@@ -44,38 +57,30 @@ class subreddit_analysis:
                         print(len(subreddit_analysis.nlp(comment_str)))
                         return comment_str
 
-    @property
-    def avg_sentence_length(self):
-        output = mtld.avg_sentence_length(self.doc)
-        return output
 
-    @property
-    def mtld(self):
-        # lemmatize each token for mtld calculation
-        lemmatize = [token.lemma_ for token in self.doc]
-        output = mtld.mtld(lemmatize)
-        return output
+def save_subreddit_analysis(subreddits):
+    output_json = {}
+    output_dir = 'data'
+    timestr = time.strftime("%Y%m%d-%H%M%S")
+    fileName = timestr + '-data.txt'
+    file_path = os.path.join(output_dir, fileName)
+    for subreddit in subreddits:
+        start = timeit.default_timer()
+        result = subreddit_analysis(subreddit)
+        output_json[subreddit] = {
+            "mtld": result.mtld,
+            "avg_sentence_length": result.avg_sentence_length
+            }
+        stop = timeit.default_timer()
+        print(subreddit, ' took ', stop - start)
+    # Generate data subdirrector if it does not exist
+    try:
+        os.mkdir(output_dir)
+    except Exception:
+        pass
+    # Save generated output JSON to ./data
+    with open(file_path, 'w') as outfile:
+        json.dump(output_json, outfile, indent=4)
 
 
-output_json = {}
-output_dir = 'data'
-timestr = time.strftime("%Y%m%d-%H%M%S")
-fileName = timestr + '-data.txt'
-file_path = os.path.join(output_dir, fileName)
-for subreddit in subreddits:
-    start = timeit.default_timer()
-    result = subreddit_analysis(subreddit)
-    output_json[subreddit] = {
-        "mtld": result.mtld,
-        "avg_sentence_length": result.avg_sentence_length
-        }
-    stop = timeit.default_timer()
-    print(subreddit, ' took ', stop - start)
-# Generate data subdirrector if it does not exist
-try:
-    os.mkdir(output_dir)
-except Exception:
-    pass
-# Save generated output JSON to ./data
-with open(file_path, 'w') as outfile:
-    json.dump(output_json, outfile, indent=4)
+save_subreddit_analysis(subreddits)

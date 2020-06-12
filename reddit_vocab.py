@@ -8,7 +8,8 @@ import timeit
 nlp = spacy.load('en_core_web_sm')
 reddit = praw.Reddit('personal')
 # Change subreddits to whatever ones you want to analyze
-subreddits = ('askreddit',)
+subreddits = ('askreddit', 'askhistorians', 'philosophy', 'news', 'funny',
+              'animalcrossing', 'aww')
 
 
 class subreddit_analysis(mtld.lexical_analysis):

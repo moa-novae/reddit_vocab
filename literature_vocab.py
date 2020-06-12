@@ -25,7 +25,7 @@ def save_literature_analysis(books):
     for book in books:
         start = timeit.default_timer()
         result = literature_analysis(book)
-        book_name = book[:book.find('.')]
+        book_name = book[:book.find('.')]  # remove .txt to give book name
         output_json[book_name] = {
             "mtld": result.mtld,
             "avg_sentence_length": result.avg_sentence_length
@@ -43,6 +43,7 @@ def save_literature_analysis(books):
 
 
 books_path = join(dirname(__file__), 'books')
+# a list of file paths to the book txt files
 books = [join(books_path, f) for f in listdir(books_path)
          if isfile(join(books_path, f))
          ]

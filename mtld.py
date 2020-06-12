@@ -74,3 +74,17 @@ def avg_sentence_length(doc):
     text_length = len(doc)
     avg_sentence_length = safe_divide(text_length, nsentence)
     return avg_sentence_length
+
+
+class lexical_analysis:
+    @property
+    def avg_sentence_length(self):
+        output = avg_sentence_length(self.doc)
+        return output
+
+    @property
+    def mtld(self):
+        # lemmatize each token for mtld calculation
+        lemmatize = [token.lemma_ for token in self.doc]
+        output = mtld(lemmatize)
+        return output

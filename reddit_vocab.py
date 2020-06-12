@@ -8,25 +8,10 @@ import timeit
 nlp = spacy.load('en_core_web_sm')
 reddit = praw.Reddit('personal')
 # Change subreddits to whatever ones you want to analyze
-subreddits = ('askreddit', 'askhistorians', 'philosophy', 'news', 'funny',
-              'animalcrossing', 'aww')
+subreddits = ('askreddit',)
 
 
-class lexical_analysis:
-    @property
-    def avg_sentence_length(self):
-        output = mtld.avg_sentence_length(self.doc)
-        return output
-
-    @property
-    def mtld(self):
-        # lemmatize each token for mtld calculation
-        lemmatize = [token.lemma_ for token in self.doc]
-        output = mtld.mtld(lemmatize)
-        return output
-
-
-class subreddit_analysis(lexical_analysis):
+class subreddit_analysis(mtld.lexical_analysis):
     nlp = spacy.load('en_core_web_sm')
     reddit = praw.Reddit('personal')
 

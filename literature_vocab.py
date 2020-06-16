@@ -25,7 +25,8 @@ def save_literature_analysis(books):
     for book in books:
         start = timeit.default_timer()
         result = literature_analysis(book)
-        book_name = book[:book.find('.')]  # remove .txt to give book name
+        # remove .txt to give book name
+        book_name = book[book.rindex('/')+1:book.find('.')]
         output_json[book_name] = {
             "mtld": result.mtld,
             "avg_sentence_length": result.avg_sentence_length
